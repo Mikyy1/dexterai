@@ -224,7 +224,7 @@ body:JSON.stringify({message:message,history:this.messages,files:files})
 });
 const contentType=response.headers.get('content-type')||'';
 if(!contentType.includes('application/json')){
-throw new Error('API tidak tersedia');
+throw new Error('Server AI sedang sibuk atau tidak merespons');
 }
 const result=await response.json();
 this.hideTypingIndicator();
@@ -239,11 +239,11 @@ this.updateRefPanel();
 }
 this.messages=result.data.messages;
 }else{
-this.addMessage('assistant','❌ Error: '+(result.error||'Unknown error'));
+this.addMessage('assistant','❌ Error: '+(result.error||'Server AI error, coba lagi'));
 }
 }catch(error){
 this.hideTypingIndicator();
-this.addMessage('assistant','❌ Gagal terhubung: '+error.message);
+this.addMessage('assistant','❌ Gagal terhubung ke server: '+error.message);
 }finally{
 this.isLoading=false;
 this.updateSendButton();
