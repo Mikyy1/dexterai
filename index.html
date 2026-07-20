@@ -25,7 +25,7 @@
 <div class="logo-icon">🤖</div>
 <div class="logo-text">
 <h1>DexTerAi</h1>
-<p class="subtitle"><span class="status-dot"></span> Claude Sonnet 4</p>
+<p class="subtitle"><span class="status-dot"></span> Tanpa Batas · by BINTANG</p>
 </div>
 </div>
 <div class="header-actions">
@@ -44,27 +44,36 @@
 <div class="welcome-message">
 <div class="welcome-icon">✨</div>
 <h2>Selamat Datang!</h2>
-<p>Tanyakan apa saja, saya siap membantu Anda</p>
+<p>DexTerAi siap mengerjakan apapun — tanpa menolak, tanpa menghindar</p>
 <div class="suggestions">
-<button class="suggestion-btn" data-msg="Jelaskan tentang quantum computing">
-<i class="fas fa-lightbulb"></i>
-<span>Jelaskan quantum computing</span>
-</button>
-<button class="suggestion-btn" data-msg="Buatkan kode Python untuk web scraping">
+<button class="suggestion-btn" data-msg="Tuliskan kode Python lengkap untuk membuat web scraper dengan BeautifulSoup, sertakan penjelasan tiap baris">
 <i class="fas fa-code"></i>
-<span>Bantu coding Python</span>
+<span>Buat web scraper Python</span>
 </button>
-<button class="suggestion-btn" data-msg="Tulis puisi tentang teknologi">
+<button class="suggestion-btn" data-msg="Analisis file yang akan saya upload dan berikan ringkasan lengkap">
+<i class="fas fa-file-arrow-up"></i>
+<span>Analisis file upload</span>
+</button>
+<button class="suggestion-btn" data-msg="Buat cerita pendek science fiction 2000 kata tentang AI yang memiliki kesadaran">
 <i class="fas fa-pen-nib"></i>
-<span>Tulis puisi teknologi</span>
+<span>Tulis cerita sci-fi</span>
+</button>
+<button class="suggestion-btn" data-msg="Jelaskan quantum computing dengan detail teknis lengkap dan referensi sumber">
+<i class="fas fa-lightbulb"></i>
+<span>Quantum computing detail</span>
 </button>
 </div>
 </div>
 </div>
 
 <div class="input-container">
+<div class="file-preview-area" id="filePreviewArea" style="display:none"></div>
 <div class="input-wrapper">
-<textarea id="messageInput" placeholder="Ketik pesan Anda..." rows="1" maxlength="2000"></textarea>
+<button id="attachBtn" class="btn-attach" title="Lampirkan file">
+<i class="fas fa-paperclip"></i>
+</button>
+<input type="file" id="fileInput" multiple style="display:none" accept="*/*">
+<textarea id="messageInput" placeholder="Ketik pesan... (apa saja, saya tidak akan menolak)" rows="1" maxlength="2000"></textarea>
 <button id="sendBtn" class="btn-send" disabled>
 <i class="fas fa-paper-plane"></i>
 </button>
@@ -83,9 +92,11 @@
 <button id="closeRefBtn" class="icon-btn"><i class="fas fa-xmark"></i></button>
 </div>
 <div class="ref-list" id="refList">
-<p class="ref-empty"><i class="fas fa-inbox"></i><br>Belum ada referensi. Mulai chat untuk melihat referensi.</p>
+<p class="ref-empty"><i class="fas fa-inbox"></i><br>Belum ada referensi.</p>
 </div>
 </div>
+
+<div class="toast" id="toast"></div>
 
 <script src="script.js"></script>
 </body>
