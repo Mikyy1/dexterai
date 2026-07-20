@@ -2,7 +2,7 @@
 <html lang="id">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <title>DexTerAi - Chat dengan AI</title>
 <link rel="stylesheet" href="style.css">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -19,18 +19,19 @@
 </div>
 
 <div class="chat-wrapper">
-<header class="chat-header glass">
+<header class="chat-header">
 <div class="header-content">
 <div class="logo">
 <div class="logo-icon">🤖</div>
-<div>
+<div class="logo-text">
 <h1>DexTerAi</h1>
-<p class="subtitle"><span class="status-dot"></span> Powered by Claude Sonnet 4</p>
+<p class="subtitle"><span class="status-dot"></span> Claude Sonnet 4</p>
 </div>
 </div>
 <div class="header-actions">
-<button id="refBtn" class="icon-btn" title="References">
+<button id="refBtn" class="icon-btn" title="Referensi">
 <i class="fas fa-book"></i>
+<span class="ref-badge" id="refBadge" style="display:none">0</span>
 </button>
 <button id="resetBtn" class="icon-btn" title="Reset Chat">
 <i class="fas fa-rotate-right"></i>
@@ -45,21 +46,24 @@
 <h2>Selamat Datang!</h2>
 <p>Tanyakan apa saja, saya siap membantu Anda</p>
 <div class="suggestions">
-<button class="suggestion-btn" data-msg="Jelaskan tentang quantum computing dengan referensi">
-<i class="fas fa-lightbulb"></i> Jelaskan quantum computing
+<button class="suggestion-btn" data-msg="Jelaskan tentang quantum computing">
+<i class="fas fa-lightbulb"></i>
+<span>Jelaskan quantum computing</span>
 </button>
-<button class="suggestion-btn" data-msg="Buatkan kode Python untuk web scraping dengan referensi">
-<i class="fas fa-code"></i> Bantu coding Python
+<button class="suggestion-btn" data-msg="Buatkan kode Python untuk web scraping">
+<i class="fas fa-code"></i>
+<span>Bantu coding Python</span>
 </button>
-<button class="suggestion-btn" data-msg="Tulis puisi tentang teknologi dengan referensi">
-<i class="fas fa-pen-nib"></i> Tulis puisi
+<button class="suggestion-btn" data-msg="Tulis puisi tentang teknologi">
+<i class="fas fa-pen-nib"></i>
+<span>Tulis puisi teknologi</span>
 </button>
 </div>
 </div>
 </div>
 
 <div class="input-container">
-<div class="input-wrapper glass">
+<div class="input-wrapper">
 <textarea id="messageInput" placeholder="Ketik pesan Anda..." rows="1" maxlength="2000"></textarea>
 <button id="sendBtn" class="btn-send" disabled>
 <i class="fas fa-paper-plane"></i>
@@ -72,18 +76,15 @@
 </div>
 </div>
 
-<div class="ref-panel glass" id="refPanel">
+<div class="ref-overlay" id="refOverlay"></div>
+<div class="ref-panel" id="refPanel">
 <div class="ref-header">
 <h3><i class="fas fa-book"></i> Referensi</h3>
 <button id="closeRefBtn" class="icon-btn"><i class="fas fa-xmark"></i></button>
 </div>
 <div class="ref-list" id="refList">
-<p class="ref-empty">Belum ada referensi. Mulai chat untuk melihat referensi.</p>
+<p class="ref-empty"><i class="fas fa-inbox"></i><br>Belum ada referensi. Mulai chat untuk melihat referensi.</p>
 </div>
-</div>
-
-<div id="loadingOverlay" class="loading-overlay" style="display:none">
-<div class="loading-spinner"></div>
 </div>
 
 <script src="script.js"></script>
