@@ -1,55 +1,91 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DexTerAi - Chat dengan AI</title>
-    <link rel="stylesheet" href="style.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DexTerAi - Chat dengan AI</title>
+<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Space+Grotesk:wght@600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
-    <div class="container">
-        <header class="header">
-            <div class="header-content">
-                <div class="logo">
-                    <div class="logo-icon">🤖</div>
-                    <div>
-                        <h1>DexTerAi</h1>
-                        <p class="subtitle">Powered by Claude Sonnet 4</p>
-                    </div>
-                </div>
-                <button id="resetBtn" class="btn-reset" title="Reset Chat">🔄</button>
-            </div>
-        </header>
+<div class="bg-layer"></div>
+<div class="bg-overlay"></div>
+<div class="bg-noise"></div>
+<div class="floating-shapes">
+<div class="shape shape-1"></div>
+<div class="shape shape-2"></div>
+<div class="shape shape-3"></div>
+</div>
 
-        <div class="chat-container" id="chatContainer">
-            <div class="welcome-message">
-                <div class="welcome-icon">✨</div>
-                <h2>Selamat Datang!</h2>
-                <p>Tanyakan apa saja, saya siap membantu Anda</p>
-                <div class="suggestions">
-                    <button class="suggestion-btn" data-msg="Jelaskan tentang quantum computing">💡 Jelaskan quantum computing</button>
-                    <button class="suggestion-btn" data-msg="Buatkan kode Python untuk web scraping">💻 Bantu coding Python</button>
-                    <button class="suggestion-btn" data-msg="Tulis puisi tentang teknologi">✍️ Tulis puisi</button>
-                </div>
-            </div>
-        </div>
+<div class="chat-wrapper">
+<header class="chat-header glass">
+<div class="header-content">
+<div class="logo">
+<div class="logo-icon">🤖</div>
+<div>
+<h1>DexTerAi</h1>
+<p class="subtitle"><span class="status-dot"></span> Powered by Claude Sonnet 4</p>
+</div>
+</div>
+<div class="header-actions">
+<button id="refBtn" class="icon-btn" title="References">
+<i class="fas fa-book"></i>
+</button>
+<button id="resetBtn" class="icon-btn" title="Reset Chat">
+<i class="fas fa-rotate-right"></i>
+</button>
+</div>
+</div>
+</header>
 
-        <div class="input-container">
-            <div class="input-wrapper">
-                <textarea id="messageInput" placeholder="Ketik pesan Anda..." rows="1" maxlength="2000"></textarea>
-                <button id="sendBtn" class="btn-send" disabled>📤</button>
-            </div>
-            <div class="footer-info">
-                <span>Created by BINTANG</span>
-                <span id="charCount">0/2000</span>
-            </div>
-        </div>
-    </div>
+<div class="chat-container" id="chatContainer">
+<div class="welcome-message">
+<div class="welcome-icon">✨</div>
+<h2>Selamat Datang!</h2>
+<p>Tanyakan apa saja, saya siap membantu Anda</p>
+<div class="suggestions">
+<button class="suggestion-btn" data-msg="Jelaskan tentang quantum computing dengan referensi">
+<i class="fas fa-lightbulb"></i> Jelaskan quantum computing
+</button>
+<button class="suggestion-btn" data-msg="Buatkan kode Python untuk web scraping dengan referensi">
+<i class="fas fa-code"></i> Bantu coding Python
+</button>
+<button class="suggestion-btn" data-msg="Tulis puisi tentang teknologi dengan referensi">
+<i class="fas fa-pen-nib"></i> Tulis puisi
+</button>
+</div>
+</div>
+</div>
 
-    <div id="loadingOverlay" class="loading-overlay" style="display: none;">
-        <div class="loading-spinner"></div>
-    </div>
+<div class="input-container">
+<div class="input-wrapper glass">
+<textarea id="messageInput" placeholder="Ketik pesan Anda..." rows="1" maxlength="2000"></textarea>
+<button id="sendBtn" class="btn-send" disabled>
+<i class="fas fa-paper-plane"></i>
+</button>
+</div>
+<div class="footer-info">
+<span>Created by BINTANG</span>
+<span id="charCount">0/2000</span>
+</div>
+</div>
+</div>
 
-    <script src="script.js"></script>
+<div class="ref-panel glass" id="refPanel">
+<div class="ref-header">
+<h3><i class="fas fa-book"></i> Referensi</h3>
+<button id="closeRefBtn" class="icon-btn"><i class="fas fa-xmark"></i></button>
+</div>
+<div class="ref-list" id="refList">
+<p class="ref-empty">Belum ada referensi. Mulai chat untuk melihat referensi.</p>
+</div>
+</div>
+
+<div id="loadingOverlay" class="loading-overlay" style="display:none">
+<div class="loading-spinner"></div>
+</div>
+
+<script src="script.js"></script>
 </body>
 </html>
