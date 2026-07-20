@@ -1,0 +1,15 @@
+{
+  "name": "dexter-ai",
+  "version": "1.0.0",
+  "description": "DexTerAi - Chat dengan Honcho AI (Claude Sonnet 4)",
+  "author": "BINTANG",
+  "scripts": {
+    "dev": "vercel dev",
+    "deploy": "vercel --prod"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "vercel": "^32.0.0"
+  }
+}
+
