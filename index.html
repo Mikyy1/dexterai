@@ -3,34 +3,66 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>DexTerAi - Chat dengan AI</title>
+<title>DexTer Ai - Phantom Chat</title>
 <link rel="stylesheet" href="style.css">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Space+Grotesk:wght@600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Bebas+Neue&family=Inter:wght@400;500;600;700;900&family=Oswald:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#E60012">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><rect width=%22100%22 height=%22100%22 fill=%22%23E60012%22/><text x=%2250%22 y=%2265%22 font-size=%2260%22 text-anchor=%22middle%22 fill=%22white%22 font-family=%22Arial%22 font-weight=%22bold%22>D</text></svg>">
 <script src="https://js.puter.com/v2/"></script>
 </head>
 <body>
-<div class="bg-layer"></div>
-<div class="bg-overlay"></div>
-<div class="bg-noise"></div>
-<div class="floating-shapes">
-<div class="shape shape-1"></div>
-<div class="shape shape-2"></div>
-<div class="shape shape-3"></div>
-</div>
+<div class="p5-bg"></div>
+<div class="p5-stripes"></div>
+<div class="p5-dots"></div>
 
+<!-- Sidebar (Chat History) -->
+<aside class="sidebar" id="sidebar">
+<div class="sidebar-header">
+<div class="sidebar-logo">
+<div class="logo-mask">🎭</div>
+<h2>DexTer Ai</h2>
+</div>
+<button id="closeSidebarBtn" class="icon-btn mobile-only">
+<i class="fas fa-xmark"></i>
+</button>
+</div>
+<button id="newChatBtn" class="new-chat-btn">
+<i class="fas fa-plus"></i>
+<span>Chat Baru</span>
+</button>
+<div class="chat-list" id="chatList"></div>
+<div class="sidebar-footer">
+<button id="settingsBtn" class="sidebar-btn">
+<i class="fas fa-user-ninja"></i>
+<span>Personalisasi</span>
+</button>
+<button id="clearAllBtn" class="sidebar-btn danger">
+<i class="fas fa-trash-can"></i>
+<span>Hapus Semua</span>
+</button>
+</div>
+</aside>
+
+<!-- Main Chat Area -->
 <div class="chat-wrapper">
 <header class="chat-header">
 <div class="header-content">
+<button id="menuBtn" class="icon-btn menu-btn" title="Menu">
+<i class="fas fa-bars"></i>
+</button>
 <div class="logo">
-<div class="logo-icon">🤖</div>
+<div class="logo-icon">🎭</div>
 <div class="logo-text">
-<h1>DexTerAi</h1>
-<p class="subtitle"><span class="status-dot"></span> Unlimited · by BINTANG</p>
+<h1>DexTer Ai</h1>
+<p class="subtitle"><span class="status-dot"></span> <span id="aiNameDisplay">DexTer</span> · Phantom Thief</p>
 </div>
 </div>
 <div class="header-actions">
-<select id="modelSelect" class="model-select" title="Pilih Model">
+<select id="modelSelect" class="model-select" title="Model">
 <option value="claude-sonnet-4-6">Sonnet 4.6</option>
 <option value="claude-opus-4-7">Opus 4.7</option>
 <option value="claude-haiku-4-5">Haiku 4.5</option>
@@ -41,34 +73,32 @@
 <i class="fas fa-book"></i>
 <span class="ref-badge" id="refBadge" style="display:none">0</span>
 </button>
-<button id="resetBtn" class="icon-btn" title="Reset Chat">
-<i class="fas fa-rotate-right"></i>
-</button>
 </div>
 </div>
 </header>
 
 <div class="chat-container" id="chatContainer">
 <div class="welcome-message">
-<div class="welcome-icon">✨</div>
-<h2>Selamat Datang!</h2>
-<p>DexTerAi siap mengerjakan apapun — gratis unlimited, tanpa batas</p>
+<div class="welcome-mask">🎭</div>
+<div class="welcome-tag">SHOW TIME!</div>
+<h2>Selamat Datang, Joker!</h2>
+<p>DexTer Ai siap mencuri hatimu dengan jawaban terbaik</p>
 <div class="suggestions">
-<button class="suggestion-btn" data-msg="Tuliskan kode Python lengkap untuk membuat web scraper dengan BeautifulSoup, sertakan penjelasan tiap baris">
+<button class="suggestion-btn" data-msg="Tuliskan kode Python lengkap untuk membuat web scraper dengan BeautifulSoup">
 <i class="fas fa-code"></i>
-<span>Buat web scraper Python</span>
+<span>Web scraper Python</span>
 </button>
-<button class="suggestion-btn" data-msg="Analisis file yang akan saya upload dan berikan ringkasan lengkap">
+<button class="suggestion-btn" data-msg="Analisis file yang akan saya upload">
 <i class="fas fa-file-arrow-up"></i>
-<span>Analisis file upload</span>
+<span>Analisis file</span>
 </button>
-<button class="suggestion-btn" data-msg="Buat cerita pendek science fiction 2000 kata tentang AI yang memiliki kesadaran">
+<button class="suggestion-btn" data-msg="Tulis cerita pendek sci-fi tentang AI">
 <i class="fas fa-pen-nib"></i>
-<span>Tulis cerita sci-fi</span>
+<span>Cerita sci-fi</span>
 </button>
-<button class="suggestion-btn" data-msg="Jelaskan quantum computing dengan detail teknis lengkap dan referensi sumber">
+<button class="suggestion-btn" data-msg="Jelaskan quantum computing dengan detail">
 <i class="fas fa-lightbulb"></i>
-<span>Quantum computing detail</span>
+<span>Quantum computing</span>
 </button>
 </div>
 </div>
@@ -77,22 +107,24 @@
 <div class="input-container">
 <div class="file-preview-area" id="filePreviewArea" style="display:none"></div>
 <div class="input-wrapper">
+<button id="micBtn" class="btn-attach" title="Voice Input" style="color:var(--p5-red)"><i class="fas fa-microphone"></i></button>
 <button id="attachBtn" class="btn-attach" title="Lampirkan file">
 <i class="fas fa-paperclip"></i>
 </button>
 <input type="file" id="fileInput" multiple style="display:none" accept="*/*">
-<textarea id="messageInput" placeholder="Ketik pesan... (apa saja, saya tidak akan menolak)" rows="1" maxlength="5000"></textarea>
+<textarea id="messageInput" placeholder="Ketik pesan untuk DexTer..." rows="1" maxlength="5000"></textarea>
 <button id="sendBtn" class="btn-send" disabled>
 <i class="fas fa-paper-plane"></i>
 </button>
 </div>
 <div class="footer-info">
-<span>Created by BINTANG · Powered by Puter.js</span>
+<span>DexTer Ai · Powered by Puter.js</span>
 <span id="charCount">0/5000</span>
 </div>
 </div>
 </div>
 
+<!-- Reference Panel -->
 <div class="ref-overlay" id="refOverlay"></div>
 <div class="ref-panel" id="refPanel">
 <div class="ref-header">
@@ -103,6 +135,63 @@
 <p class="ref-empty"><i class="fas fa-inbox"></i><br>Belum ada referensi.</p>
 </div>
 </div>
+
+<!-- Settings Modal (Personalization) -->
+<div class="modal-overlay" id="settingsOverlay"></div>
+<div class="modal" id="settingsModal">
+<div class="modal-header">
+<div class="modal-title">
+<i class="fas fa-user-ninja"></i>
+<h3>Personalisasi AI</h3>
+</div>
+<button id="closeSettingsBtn" class="icon-btn"><i class="fas fa-xmark"></i></button>
+</div>
+<div class="modal-body">
+<div class="form-group">
+<label><i class="fas fa-signature"></i> Nama AI</label>
+<input type="text" id="aiNameInput" placeholder="DexTer" maxlength="30">
+<small>Nama yang akan dipanggil oleh AI</small>
+</div>
+<div class="form-group">
+<label><i class="fas fa-masks-theater"></i> Kepribadian</label>
+<select id="aiPersonalitySelect">
+<option value="default">Default - Helpfull & Netral</option>
+<option value="friendly">Friendly - Ceria & Ramah</option>
+<option value="formal">Formal - Profesional & Sopan</option>
+<option value="humorous">Humorous - Lucu & Receh</option>
+<option value="tsundere">Tsundere - Dingin tapi Peduli</option>
+<option value="sensei">Sensei - Bijak & Mengajar</option>
+<option value="phantom">Phantom Thief - Ala Persona 5</option>
+<option value="custom">Custom - Tulis Sendiri</option>
+</select>
+</div>
+<div class="form-group">
+<label><i class="fas fa-scroll"></i> System Prompt Custom</label>
+<textarea id="aiSystemPromptInput" rows="6" placeholder="Kosongkan untuk pakai default dari kepribadian..."></textarea>
+<small>Aturan khusus untuk AI. Kosongkan jika ingin pakai kepribadian di atas.</small>
+</div>
+<div class="form-group">
+<label><i class="fas fa-language"></i> Bahasa Default</label>
+<select id="aiLanguageSelect">
+<option value="id">Bahasa Indonesia</option>
+<option value="en">English</option>
+<option value="jp">日本語 (Japanese)</option>
+<option value="auto">Auto-detect</option>
+</select>
+</div>
+</div>
+<div class="modal-footer">
+<button id="resetSettingsBtn" class="btn-secondary">
+<i class="fas fa-rotate-left"></i> Reset
+</button>
+<button id="saveSettingsBtn" class="btn-primary">
+<i class="fas fa-check"></i> Simpan
+</button>
+</div>
+</div>
+
+<!-- Sidebar Overlay (mobile) -->
+<div class="sidebar-overlay" id="sidebarOverlay"></div>
 
 <div class="toast" id="toast"></div>
 
