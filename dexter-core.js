@@ -1,5 +1,6 @@
 const OPENROUTER_API_KEY = localStorage.getItem('OPENROUTER_API_KEY') || '';
-const DEFAULT_MODEL = 'qwen/qwen2.5-coder-32b-instruct:free';
+// Ganti ke model yang lebih stabil dan pasti tersedia
+const DEFAULT_MODEL = 'meta-llama/llama-3-8b-instruct:free'; 
 const SYSTEM_PROMPT = "Kamu adalah DexTer, Phantom Thief jenius. Panggil user Detective. Gunakan bahasa puitis, metafora pencurian. Cerdas dalam coding & logika. Selalu ada sentuhan drama. Emoji 💎.";
 let chatHistory = JSON.parse(localStorage.getItem('dexter_chat_history')) || [];
 
@@ -20,8 +21,19 @@ async function sendMessage(userMessage) {
             },
             body: JSON.stringify({ model: DEFAULT_MODEL, messages, temperature: 0.8, max_tokens: 2048 })
         });
-        if (!response.ok) throw new Error(`HTTP ${response.status}`);
+        
+        // Tambahkan logging detail untuk debug 400
+        if (!response.ok) {
+            const errText = await response.text();
+            console.error('OpenRouter Error Response:', errText);
+            throw new Error(`HTTP ${response.status}: ${errText}`);
+        }
+        
         const data = await response.json();
+        if (!data.choices || !data.choices[0]) {
+            throw new Error('Invalid response structure from OpenRouter');
+        }
+        
         const aiReply = data.choices[0].message.content;
         chatHistory.push({ role: "user", content: userMessage });
         chatHistory.push({ role: "assistant", content: aiReply });
@@ -29,7 +41,7 @@ async function sendMessage(userMessage) {
         return aiReply;
     } catch (error) {
         console.error('DexTer Error:', error);
-        return ` Heist gagal sementara: ${error.message}`;
+        return `🎭 Heist gagal: ${error.message}`;
     }
 }
 
