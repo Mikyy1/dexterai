@@ -1101,3 +1101,235 @@ box-shadow:4px 4px 0 var(--p5-red);
 }
 .btn-attach.recording{background:var(--p5-red);color:var(--p5-white);border-color:var(--p5-yellow);animation:pulseMic 1s infinite}
 @keyframes pulseMic{0%,100%{box-shadow:0 0 0 0 var(--p5-red-glow)}50%{box-shadow:0 0 0 8px transparent}}
+
+/* Modal Large */
+.modal-lg{width:min(640px,94%);max-height:88vh}
+
+/* Modal Tabs */
+.modal-tabs{
+display:flex;
+background:var(--p5-black);
+border-bottom:2px solid var(--p5-red);
+}
+.settings-tab{
+flex:1;
+padding:12px 14px;
+background:transparent;
+border:none;
+border-bottom:3px solid transparent;
+color:var(--text-muted);
+cursor:pointer;
+font-family:var(--font-accent);
+font-size:13px;
+font-weight:700;
+letter-spacing:1px;
+text-transform:uppercase;
+transition:all .2s;
+display:flex;
+align-items:center;
+justify-content:center;
+gap:8px;
+}
+.settings-tab:hover{color:var(--p5-white);background:rgba(227,6,19,.1)}
+.settings-tab.active{
+color:var(--p5-gold);
+border-bottom-color:var(--p5-gold);
+background:rgba(227,6,19,.15);
+}
+.settings-tab i{font-size:13px}
+.tab-badge{
+background:var(--p5-red);
+color:var(--p5-white);
+padding:2px 8px;
+font-size:10px;
+font-family:var(--font-display);
+font-weight:700;
+min-width:22px;
+text-align:center;
+}
+.settings-tab.active .tab-badge{background:var(--p5-gold);color:var(--p5-black)}
+
+/* Settings Panels */
+.settings-panel{display:none}
+.settings-panel.active{display:block;animation:fadeIn .3s}
+@keyframes fadeIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+
+/* Memory Header */
+.memory-header{
+display:flex;
+justify-content:space-between;
+align-items:flex-start;
+gap:14px;
+padding-bottom:14px;
+border-bottom:2px dashed var(--p5-red);
+margin-bottom:14px;
+}
+.memory-info h4{
+font-family:var(--font-display);
+font-size:20px;
+letter-spacing:2px;
+color:var(--p5-gold);
+margin-bottom:4px;
+display:flex;
+align-items:center;
+gap:8px;
+}
+.memory-info h4 i{color:var(--p5-red)}
+.memory-info p{
+font-size:12px;
+color:var(--text-muted);
+line-height:1.5;
+}
+
+/* Memory Toggle */
+.memory-toggle{
+display:flex;
+align-items:center;
+gap:8px;
+cursor:pointer;
+font-family:var(--font-accent);
+font-size:12px;
+font-weight:700;
+color:var(--p5-white);
+text-transform:uppercase;
+letter-spacing:1px;
+padding:8px 12px;
+background:var(--p5-gray);
+border:2px solid var(--p5-white);
+transition:all .2s;
+flex-shrink:0;
+}
+.memory-toggle:hover{border-color:var(--p5-gold)}
+.memory-toggle input{width:16px;height:16px;accent-color:var(--p5-red);cursor:pointer}
+.memory-toggle input:checked + span{color:var(--p5-gold)}
+
+/* Memory List */
+.memory-list{
+max-height:320px;
+overflow-y:auto;
+display:flex;
+flex-direction:column;
+gap:10px;
+padding:4px;
+margin-bottom:12px;
+}
+.memory-empty{
+text-align:center;
+padding:30px 20px;
+color:var(--text-dim);
+}
+.memory-empty i{
+font-size:42px;
+color:var(--p5-red);
+opacity:.4;
+margin-bottom:12px;
+display:block;
+}
+.memory-empty p{
+font-family:var(--font-accent);
+font-size:13px;
+color:var(--text-muted);
+margin-bottom:6px;
+}
+.memory-empty small{
+font-size:11px;
+color:var(--text-dim);
+line-height:1.5;
+}
+
+.memory-item{
+background:var(--p5-gray);
+border-left:4px solid var(--p5-red);
+padding:10px 12px;
+position:relative;
+transition:all .2s;
+}
+.memory-item:hover{border-left-color:var(--p5-gold);transform:translateX(3px)}
+.memory-item-header{
+display:flex;
+justify-content:space-between;
+align-items:center;
+margin-bottom:6px;
+}
+.memory-date{
+font-family:var(--font-accent);
+font-size:10px;
+color:var(--text-dim);
+letter-spacing:.5px;
+display:flex;
+align-items:center;
+gap:5px;
+}
+.memory-date i{color:var(--p5-red);font-size:9px}
+.memory-delete{
+background:transparent;
+border:none;
+color:var(--text-dim);
+cursor:pointer;
+padding:4px 8px;
+font-size:12px;
+transition:all .2s;
+}
+.memory-delete:hover{color:var(--p5-red);transform:scale(1.2)}
+
+.memory-content{
+font-size:13px;
+color:var(--p5-white);
+line-height:1.6;
+padding:6px 8px;
+background:rgba(0,0,0,.3);
+border:1px dashed transparent;
+outline:none;
+transition:border-color .2s;
+min-height:30px;
+}
+.memory-content:focus{
+border-color:var(--p5-gold);
+background:rgba(255,215,0,.05);
+}
+.memory-content:empty::before{
+content:'Klik untuk edit...';
+color:var(--text-dim);
+font-style:italic;
+}
+
+.btn-ghost-full{
+width:100%;
+padding:10px;
+background:transparent;
+border:2px dashed var(--p5-red);
+color:var(--text-muted);
+cursor:pointer;
+font-family:var(--font-accent);
+font-size:12px;
+font-weight:700;
+letter-spacing:1px;
+text-transform:uppercase;
+display:flex;
+align-items:center;
+justify-content:center;
+gap:8px;
+transition:all .2s;
+}
+.btn-ghost-full:hover{
+background:rgba(227,6,19,.15);
+border-color:var(--p5-gold);
+color:var(--p5-gold);
+}
+.btn-ghost-full i{color:var(--p5-red)}
+.btn-ghost-full:hover i{color:var(--p5-gold)}
+
+/* Save Memory Button animation */
+#saveMemoryBtn i{
+animation:brainPulse 2.5s ease-in-out infinite;
+}
+@keyframes brainPulse{
+0%,100%{transform:scale(1)}
+50%{transform:scale(1.1)}
+}
+
+@media(max-width:480px){
+.modal-lg{max-height:92vh}
+.settings-tab{font-size:11px;padding:10px 8px;letter-spacing:.5px}
+.memory-header{flex-direction:column}
+}
