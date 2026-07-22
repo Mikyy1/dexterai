@@ -1,199 +1,97 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>DexTer Ai - Phantom Chat</title>
-<link rel="stylesheet" href="style.css">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-<link href="https://fonts.googleapis.com/css2?family=Anton&family=Bebas+Neue&family=Inter:wght@400;500;600;700;900&family=Oswald:wght@400;500;600;700&display=swap" rel="stylesheet">
-<link rel="manifest" href="manifest.json">
-<meta name="theme-color" content="#E60012">
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><rect width=%22100%22 height=%22100%22 fill=%22%23E60012%22/><text x=%2250%22 y=%2265%22 font-size=%2260%22 text-anchor=%22middle%22 fill=%22white%22 font-family=%22Arial%22 font-weight=%22bold%22>D</text></svg>">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DexTer AI - Phantom Thief</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { background: #0a0a0a; color: #e0e0e0; font-family: 'Segoe UI', sans-serif; height: 100vh; display: flex; flex-direction: column; overflow: hidden; }
+        
+        /* Header */
+        .header { background: linear-gradient(90deg, #8b0000, #4a0000); padding: 15px 20px; display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid #ff0000; }
+        .logo { font-size: 24px; font-weight: bold; color: #fff; text-shadow: 0 0 10px rgba(255,0,0,0.5); }
+        .model-select { background: #1a1a1a; color: #fff; border: 1px solid #333; padding: 8px 12px; border-radius: 5px; cursor: pointer; }
+        
+        /* Chat Container */
+        .chat-container { flex: 1; overflow-y: auto; padding: 20px; display: flex; flex-direction: column; gap: 15px; }
+        .message { max-width: 80%; padding: 12px 16px; border-radius: 12px; line-height: 1.5; word-wrap: break-word; }
+        .user-message { align-self: flex-end; background: #8b0000; color: white; border-bottom-right-radius: 2px; }
+        .bot-message { align-self: flex-start; background: #1a1a1a; border: 1px solid #333; border-bottom-left-radius: 2px; }
+        .loading { opacity: 0.7; font-style: italic; }
+        
+        /* Input Area */
+        .input-area { background: #111; padding: 15px 20px; border-top: 1px solid #333; display: flex; gap: 10px; align-items: center; }
+        .chat-input { flex: 1; background: #1a1a1a; border: 1px solid #333; color: white; padding: 12px 16px; border-radius: 8px; outline: none; font-size: 16px; }
+        .chat-input:focus { border-color: #8b0000; }
+        .send-btn { background: #8b0000; color: white; border: none; padding: 12px 20px; border-radius: 8px; cursor: pointer; font-weight: bold; transition: all 0.2s; }
+        .send-btn:hover { background: #a00000; transform: scale(1.05); }
+        .send-btn:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
+        
+        /* Footer */
+        .footer { background: #050505; padding: 8px; text-align: center; font-size: 12px; color: #666; border-top: 1px solid #222; }
+        
+        /* API Key Setup Modal */
+        #api-key-setup { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); z-index: 9999; justify-content: center; align-items: center; }
+        .setup-box { background: #1a1a1a; padding: 30px; border-radius: 15px; border: 2px solid #8b0000; max-width: 90%; width: 400px; text-align: center; box-shadow: 0 0 30px rgba(139,0,0,0.3); }
+        .setup-box h3 { color: #fff; margin-bottom: 15px; font-size: 22px; }
+        .setup-box p { color: #aaa; margin-bottom: 20px; font-size: 14px; line-height: 1.6; }
+        .setup-box input { width: 100%; padding: 12px; margin-bottom: 15px; border-radius: 8px; border: 1px solid #333; background: #0a0a0a; color: white; font-size: 14px; }
+        .setup-box button { width: 100%; padding: 12px; background: #8b0000; color: white; border: none; border-radius: 8px; cursor: pointer; font-weight: bold; font-size: 16px; transition: all 0.2s; }
+        .setup-box button:hover { background: #a00000; }
+    </style>
 </head>
 <body>
-<div class="p5-bg"></div>
-<div class="p5-stripes"></div>
-<div class="p5-dots"></div>
+    <!-- API Key Setup Modal -->
+    <div id="api-key-setup">
+        <div class="setup-box">
+            <h3>🔑 Setup OpenRouter API Key</h3>
+            <p>DexTer AI membutuhkan API Key untuk berjalan.<br>Masukkan key sekali saja, akan tersimpan permanen di browser ini.</p>
+            <input type="password" id="api-key-input" placeholder="sk-or-v1-...">
+            <button onclick="saveApiKey()">Save & Reload</button>
+        </div>
+    </div>
 
-<!-- Sidebar (Chat History) -->
-<aside class="sidebar" id="sidebar">
-<div class="sidebar-header">
-<div class="sidebar-logo">
-<div class="logo-mask">🎭</div>
-<h2>DexTer Ai</h2>
-</div>
-<button id="closeSidebarBtn" class="icon-btn mobile-only">
-<i class="fas fa-xmark"></i>
-</button>
-</div>
-<button id="newChatBtn" class="new-chat-btn">
-<i class="fas fa-plus"></i>
-<span>Chat Baru</span>
-</button>
-<div class="chat-list" id="chatList"></div>
-<div class="sidebar-footer">
-<button id="settingsBtn" class="sidebar-btn">
-<i class="fas fa-user-ninja"></i>
-<span>Personalisasi</span>
-</button>
-<button id="clearAllBtn" class="sidebar-btn danger">
-<i class="fas fa-trash-can"></i>
-<span>Hapus Semua</span>
-</button>
-</div>
-</aside>
+    <!-- Main App -->
+    <div class="header">
+        <div class="logo">🎭 DEXTER AI</div>
+        <select class="model-select" id="model-select">
+            <option value="qwen/qwen2.5-coder-32b-instruct:free">Qwen 2.5 Coder (Free)</option>
+            <option value="deepseek/deepseek-chat-v3-0324:free">DeepSeek V3 (Free)</option>
+            <option value="google/gemma-3-27b-it:free">Gemma 3 27B (Free)</option>
+        </select>
+    </div>
+    
+    <div class="chat-container" id="chat-container"></div>
+    
+    <div class="input-area">
+        <input type="text" class="chat-input" id="chat-input" placeholder="Tanya sesuatu ke DexTer..." autocomplete="off">
+        <button class="send-btn" id="send-btn">Kirim</button>
+    </div>
+    
+    <div class="footer">DEXTER AI • POWERED BY OPENROUTER</div>
 
-<!-- Main Chat Area -->
-<div class="chat-wrapper">
-<header class="chat-header">
-<div class="header-content">
-<button id="menuBtn" class="icon-btn menu-btn" title="Menu">
-<i class="fas fa-bars"></i>
-</button>
-<div class="logo">
-<div class="logo-icon">🎭</div>
-<div class="logo-text">
-<h1>DexTer Ai</h1>
-<p class="subtitle"><span class="status-dot"></span> <span id="aiNameDisplay">DexTer</span> · Phantom Thief</p>
-</div>
-</div>
-<div class="header-actions">
-<select id="modelSelect" class="model-select" title="Model">
-<option value="claude-sonnet-4-6">Sonnet 4.6</option>
-<option value="claude-opus-4-7">Opus 4.7</option>
-<option value="claude-haiku-4-5">Haiku 4.5</option>
-<option value="claude-opus-4-6">Opus 4.6</option>
-<option value="claude-sonnet-4">Sonnet 4</option>
-</select>
-<button id="refBtn" class="icon-btn" title="Referensi">
-<i class="fas fa-book"></i>
-<span class="ref-badge" id="refBadge" style="display:none">0</span>
-</button>
-</div>
-</div>
-</header>
-
-<div class="chat-container" id="chatContainer">
-<div class="welcome-message">
-<div class="welcome-mask">🎭</div>
-<div class="welcome-tag">SHOW TIME!</div>
-<h2>Selamat Datang, Joker!</h2>
-<p>DexTer Ai siap mencuri hatimu dengan jawaban terbaik</p>
-<div class="suggestions">
-<button class="suggestion-btn" data-msg="Tuliskan kode Python lengkap untuk membuat web scraper dengan BeautifulSoup">
-<i class="fas fa-code"></i>
-<span>Web scraper Python</span>
-</button>
-<button class="suggestion-btn" data-msg="Analisis file yang akan saya upload">
-<i class="fas fa-file-arrow-up"></i>
-<span>Analisis file</span>
-</button>
-<button class="suggestion-btn" data-msg="Tulis cerita pendek sci-fi tentang AI">
-<i class="fas fa-pen-nib"></i>
-<span>Cerita sci-fi</span>
-</button>
-<button class="suggestion-btn" data-msg="Jelaskan quantum computing dengan detail">
-<i class="fas fa-lightbulb"></i>
-<span>Quantum computing</span>
-</button>
-</div>
-</div>
-</div>
-
-<div class="input-container">
-<div class="file-preview-area" id="filePreviewArea" style="display:none"></div>
-<div class="input-wrapper">
-<button id="micBtn" class="btn-attach" title="Voice Input" style="color:var(--p5-red)"><i class="fas fa-microphone"></i></button>
-<button id="attachBtn" class="btn-attach" title="Lampirkan file">
-<i class="fas fa-paperclip"></i>
-</button>
-<input type="file" id="fileInput" multiple style="display:none" accept="*/*">
-<textarea id="messageInput" placeholder="Ketik pesan untuk DexTer..." rows="1" maxlength="5000"></textarea>
-<button id="sendBtn" class="btn-send" disabled>
-<i class="fas fa-paper-plane"></i>
-</button>
-</div>
-<div class="footer-info">
-<span id="charCount">0/5000</span>
-</div>
-</div>
-</div>
-
-<!-- Reference Panel -->
-<div class="ref-overlay" id="refOverlay"></div>
-<div class="ref-panel" id="refPanel">
-<div class="ref-header">
-<h3><i class="fas fa-book"></i> Referensi</h3>
-<button id="closeRefBtn" class="icon-btn"><i class="fas fa-xmark"></i></button>
-</div>
-<div class="ref-list" id="refList">
-<p class="ref-empty"><i class="fas fa-inbox"></i><br>Belum ada referensi.</p>
-</div>
-</div>
-
-<!-- Settings Modal (Personalization) -->
-<div class="modal-overlay" id="settingsOverlay"></div>
-<div class="modal" id="settingsModal">
-<div class="modal-header">
-<div class="modal-title">
-<i class="fas fa-user-ninja"></i>
-<h3>Personalisasi AI</h3>
-</div>
-<button id="closeSettingsBtn" class="icon-btn"><i class="fas fa-xmark"></i></button>
-</div>
-<div class="modal-body">
-<div class="form-group">
-<label><i class="fas fa-signature"></i> Nama AI</label>
-<input type="text" id="aiNameInput" placeholder="DexTer" maxlength="30">
-<small>Nama yang akan dipanggil oleh AI</small>
-</div>
-<div class="form-group">
-<label><i class="fas fa-masks-theater"></i> Kepribadian</label>
-<select id="aiPersonalitySelect">
-<option value="default">Default - Helpfull & Netral</option>
-<option value="friendly">Friendly - Ceria & Ramah</option>
-<option value="formal">Formal - Profesional & Sopan</option>
-<option value="humorous">Humorous - Lucu & Receh</option>
-<option value="tsundere">Tsundere - Dingin tapi Peduli</option>
-<option value="sensei">Sensei - Bijak & Mengajar</option>
-<option value="phantom">Phantom Thief - Ala Persona 5</option>
-<option value="custom">Custom - Tulis Sendiri</option>
-</select>
-</div>
-<div class="form-group">
-<label><i class="fas fa-scroll"></i> System Prompt Custom</label>
-<textarea id="aiSystemPromptInput" rows="6" placeholder="Kosongkan untuk pakai default dari kepribadian..."></textarea>
-<small>Aturan khusus untuk AI. Kosongkan jika ingin pakai kepribadian di atas.</small>
-</div>
-<div class="form-group">
-<label><i class="fas fa-language"></i> Bahasa Default</label>
-<select id="aiLanguageSelect">
-<option value="id">Bahasa Indonesia</option>
-<option value="en">English</option>
-<option value="jp">日本語 (Japanese)</option>
-<option value="auto">Auto-detect</option>
-</select>
-</div>
-</div>
-<div class="modal-footer">
-<button id="resetSettingsBtn" class="btn-secondary">
-<i class="fas fa-rotate-left"></i> Reset
-</button>
-<button id="saveSettingsBtn" class="btn-primary">
-<i class="fas fa-check"></i> Simpan
-</button>
-</div>
-</div>
-
-<!-- Sidebar Overlay (mobile) -->
-<div class="sidebar-overlay" id="sidebarOverlay"></div>
-
-<div class="toast" id="toast"></div>
-
-<script src="config.js"></script>
-<script src="dexter-core.js"></script>
+    <script src="dexter-core.js"></script>
+    <script>
+        // Show API key setup modal if key is missing
+        if (!localStorage.getItem('OPENROUTER_API_KEY')) {
+            document.getElementById('api-key-setup').style.display = 'flex';
+        }
+        
+        function saveApiKey() {
+            const key = document.getElementById('api-key-input').value.trim();
+            if (key.startsWith('sk-or-v1-')) {
+                localStorage.setItem('OPENROUTER_API_KEY', key);
+                location.reload();
+            } else {
+                alert('️ Format API Key tidak valid! Harus dimulai dengan sk-or-v1-');
+            }
+        }
+        
+        // Allow Enter key in API input
+        document.getElementById('api-key-input')?.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') saveApiKey();
+        });
+    </script>
 </body>
 </html>
