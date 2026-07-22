@@ -1,5 +1,5 @@
 // === KONFIGURASI OPENROUTER ===
-const OPENROUTER_API_KEY = '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'; 
+const OPENROUTER_API_KEY = window.OPENROUTER_API_KEY; 
 const DEFAULT_MODEL = 'qwen/qwen3-coder:free'; // Model coding terbaik & gratis
 const FALLBACK_MODEL = 'deepseek/deepseek-chat-v3-0324:free'; // Backup jika Qwen down
 
