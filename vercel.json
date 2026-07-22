@@ -1,4 +1,4 @@
 {
-  "buildCommand": "echo BUILD_1784681414 && echo \"window.OPENROUTER_API_KEY = '';\" > config.js",
+  "buildCommand": "echo \"window.OPENROUTER_API_KEY = '$OPENROUTER_API_KEY';\" > config.js && echo 'Build completed at $(date)'",
   "outputDirectory": "."
 }
